@@ -76,7 +76,7 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function(){
-        emailjs.init("f9oB42Wv6XbVlyEKv"); // ✅ Public Key
+        emailjs.init("3Pq23wvyT3sgW9ME"); // ✅ Public Key
     })();
 
     document.getElementById("contact-form").addEventListener("submit", function(e){
@@ -89,6 +89,8 @@
           alert("Failed 😭 : " + JSON.stringify(error));
         });
     });
+    
+    console.log("Error details:", error);
   </script>
 </body>
 </html>
